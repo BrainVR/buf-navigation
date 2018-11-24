@@ -31,7 +31,7 @@ namespace BrainVR.UnityFramework.Navigation
 
         private GameObject _player;
 
-        private RectTransform _mapArrowTransform;
+        public RectTransform _mapArrowTransform;
         public MinimapBehaviour FollowingState = MinimapBehaviour.FollowRotate;
         private LineRenderer _lineRenderer;
 
@@ -155,6 +155,7 @@ namespace BrainVR.UnityFramework.Navigation
         //so it wouldn't change in each Update
         private void Hook()
         {
+            if(!_mapArrowTransform) _mapArrowTransform = MapArrow.GetComponent<RectTransform>();
             switch (FollowingState)
             {
                 case MinimapBehaviour.FollowRotate:

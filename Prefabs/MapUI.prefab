@@ -260,7 +260,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 0
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 8400000, guid: e560d5be0c063ca499fa65e8db85046e, type: 2}
   m_TargetDisplay: 0
@@ -449,6 +449,7 @@ MonoBehaviour:
   Map: {fileID: 1023929814119028}
   DirrectionalArrow: {fileID: 21300000, guid: aa4d8834c756afe4b91a2bb134c68257, type: 3}
   LocationMark: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  _mapArrowTransform: {fileID: 0}
   FollowingState: 0
 --- !u!114 &114891656583335924
 MonoBehaviour:
