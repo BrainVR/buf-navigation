@@ -94,20 +94,22 @@ namespace BrainVR.UnityFramework.Navigation
                 for (var iDetail = 0; iDetail < terrain.terrainData.detailPrototypes.Length; iDetail++)
                     terrain.terrainData.SetDetailLayer(0, 0, iDetail, emptyDetail);
             }
-
             terrain.terrainData.treePrototypes = new TreePrototype[0];
             terrain.terrainData.detailPrototypes = new DetailPrototype[0];
 
             //sets colors
-            terrain.materialType = Terrain.MaterialType.Custom;
-            terrain.materialTemplate = new Material(Shader.Find("Unlit/Texture"));
-            var splats = new List<SplatPrototype>();
+            //terrain.materialType = Terrain.MaterialType.Custom;
+            terrain.materialTemplate = new Material(Shader.Find("Nature/Terrain/Diffuse"));
+            //var splats = new List<SplatPrototype>();
+            var terrainLayers = new List<TerrainLayer>();
             for (var i = 0; i < terrain.terrainData.alphamapLayers; i++)
             {
                 var color = TerrainColors.Count >= i + 1 ? TerrainColors[i] : TerrainColors.Last();
-                splats.Add(new SplatPrototype { texture = CreateTerrainTexture(color) });
+                //splats.Add(new SplatPrototype { texture = CreateTerrainTexture(color) });
+                terrainLayers.Add(new TerrainLayer{ diffuseTexture = CreateTerrainTexture(color)});
             }
-            terrain.terrainData.splatPrototypes = splats.ToArray();
+            //terrain.terrainData.splatPrototypes = splats.ToArray();
+            terrain.terrainData.terrainLayers = terrainLayers.ToArray();
             //SETS heights
             var height = oldTerrainData.heightmapHeight;
             var width = oldTerrainData.heightmapWidth;
@@ -189,8 +191,18 @@ namespace BrainVR.UnityFramework.Navigation
         }
         private Texture2D CreateTerrainTexture(Color color)
         {
-            var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-            texture.SetPixel(1, 1, color);
+            //The size 32 is because of the unity texture mipmaps
+            //https://forum.unity.com/threads/terrain-texture-doesnt-recognize-mipmaps.477349/
+            const int size = 128;
+            var texture = new Texture2D(size, size, TextureFormat.ARGB32, false);
+            for (var y = 0; y < texture.height; y++)
+            {
+                for (var x = 0; x < texture.width; x++)
+                {
+                    texture.SetPixel(x, y, color);
+                }
+            }
+            texture.Apply();
             return texture;
         }
         #endregion
